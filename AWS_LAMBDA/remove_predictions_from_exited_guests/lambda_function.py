@@ -1,3 +1,6 @@
+# Each day, guests are exiting. Once a guest has exited, the predicted_exit_destination
+# column should be "exited" rather than a prediction.
+
 import os
 import sys
 import logging
