@@ -6,11 +6,6 @@ import sys
 import logging
 import psycopg2
 
-# Tasks: 
-# 1. Connect to db
-# 2. Check if predicted_exit_destination column exists, and if not, add it
-# 3. Add values to predicted_exit_destination column
-
 # RDS settings
 rds_host = os.environ.get('RDS_HOST')
 rds_username = os.environ.get('RDS_USERNAME')

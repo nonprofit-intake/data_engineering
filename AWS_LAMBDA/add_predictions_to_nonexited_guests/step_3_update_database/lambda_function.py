@@ -1,3 +1,6 @@
+# Downloads and opens csv of predictions from s3 bucket, 
+# uses these to update the database table with predictions.
+
 import pandas as pd
 import boto3
 import os

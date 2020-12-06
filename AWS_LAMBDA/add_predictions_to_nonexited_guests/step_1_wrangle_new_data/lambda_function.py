@@ -1,5 +1,4 @@
-# Connect to database, query for only rows with no predicted exit destination, 
-# 'wrangle' rows to be fit for modeling, then sending to an S3 bucket
+# Parses database table for only current (non-exited) guests.
 
 import sys
 import logging
