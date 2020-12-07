@@ -1,3 +1,6 @@
+# Uses lightgbm model on current guests to 
+# create prediction for their exit destination.
+
 import pandas as pd
 import boto3
 import os

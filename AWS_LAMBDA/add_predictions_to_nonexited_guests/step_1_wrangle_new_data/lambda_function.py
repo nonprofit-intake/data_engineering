@@ -1,5 +1,4 @@
-# Connect to database, query for only rows with no predicted exit destination, 
-# 'wrangle' rows to be fit for modeling, then sending to an S3 bucket
+# Parses database table for only current (non-exited) guests.
 
 import sys
 import logging
@@ -152,10 +151,9 @@ def wrangle(df):
 
 
 def lambda_handler(event, context):
-    '''Parses database for null predictions, runs model on those, updates   
-    those rows in the database at that column.'''
+    '''Parses database table for only current (non-exited) guests.'''
 
-    # query the database for only rows where null at prediction column as a df 
+    # query the database for only rows where null at exit date column as a df 
     query = "SELECT * FROM guests_temp WHERE exit_destination IS NULL AND exit_date IS NULL"
     null_predictions = pd.read_sql_query(query, conn)
 
