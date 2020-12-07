@@ -51,5 +51,5 @@ def lambda_handler(event, context):
             logger.error("ERROR: Could not update predictions table.")
             sys.exit()
 
-    conn.commit()
-    conn.close()
+        conn.commit()
+        conn.close()
