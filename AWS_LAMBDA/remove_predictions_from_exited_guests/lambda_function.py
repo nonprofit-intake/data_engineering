@@ -36,32 +36,18 @@ def lambda_handler(event, context):
     then updates guests_temp to account for newly exited guests (if exited, no more need for prediction on row).'''
 
     # Check if column exists
-    if conn != None: 
-        cur = conn.cursor()
-
-        try:
-            # If column exists
-            query = "SELECT predicted_exit_destination FROM guests_temp;"
-            cur.execute(query)
-            
-        except:
-            conn.rollback()
-            # If column doesn't exist
-            query = "ALTER TABLE guests_temp ADD predicted_exit_destination VARCHAR;"
-            cur.execute(query)
-
-    conn.commit()
-
-    # Check if column exists
     with conn.cursor() as cur:
 
         try:
+            # Add column if not exists
+            add_column_query = "ALTER TABLE guests_temp ADD IF NOT EXISTS predicted_exit_destination VARCHAR;"
+            cur.execute(add_column_query)
+            
             # Update predictions
             update_query = "UPDATE guests_temp SET predicted_exit_destination=CASE WHEN exit_date IS NOT NULL THEN 'exited' END;"
             cur.execute(update_query)
-
+            
         except:
-            # Unable to update predictions table
             logger.error("ERROR: Could not update predictions table.")
             sys.exit()
 
