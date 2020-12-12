@@ -25,19 +25,6 @@ predictions_file = os.environ.get('PREDICTIONS_FILE')
 predictions_file_path = '/tmp/' + predictions_file
 
 
-
-try:
-    conn = psycopg2.connect(
-        host=rds_host,
-        user=rds_username,
-        password=rds_user_pwd)
-except:
-    logger.error("ERROR: Could not connect to Postgres instance.")
-    sys.exit()
-
-logger.info("SUCCESS: Connection to RDS Postgres instance succeeded")
-
-
 def lambda_handler(event, context):
     '''Downloads and opens csv of predictions from s3 bucket, uses these to update the 
     database table with predictions.'''
@@ -48,6 +35,18 @@ def lambda_handler(event, context):
     # open predictions csv
     with open(predictions_file_path, 'rb') as f:
         predictions = pd.read_csv(f) 
+
+    try:
+        conn = psycopg2.connect(
+            host=rds_host,
+            user=rds_username,
+            password=rds_user_pwd)
+    except:
+        logger.error("ERROR: Could not connect to Postgres instance.")
+        sys.exit()
+
+    logger.info("SUCCESS: Connection to RDS Postgres instance succeeded")
+
 
     # iterate through our results df
     for row in predictions.itertuples():

@@ -19,17 +19,6 @@ s3_bucket = os.environ.get('S3_BUCKET')
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-try:
-    conn = psycopg2.connect(
-        host=rds_host,
-        user=rds_username,
-        password=rds_user_pwd)
-except:
-    logger.error("ERROR: Could not connect to Postgres instance.")
-    sys.exit()
-
-logger.info("SUCCESS: Connection to RDS Postgres instance succeeded")
-
 def wrangle(df):
     print(f"Original shape: {df.shape}")
     clean_df = df.copy()
@@ -149,13 +138,35 @@ def wrangle(df):
 
     return clean_df
 
+try:
+    conn = psycopg2.connect(
+        host=rds_host,
+        user=rds_username,
+        password=rds_user_pwd)
+except:
+    logger.error("ERROR: Could not connect to Postgres instance.")
+    sys.exit()
+
+logger.info("SUCCESS: Connection to RDS Postgres instance succeeded")
+
 
 def lambda_handler(event, context):
     '''Parses database table for only current (non-exited) guests.'''
 
     # query the database for only rows where null at exit date column as a df 
     query = "SELECT * FROM guests_temp WHERE exit_destination IS NULL AND exit_date IS NULL"
-    null_predictions = pd.read_sql_query(query, conn)
+
+    try:
+        null_predictions = pd.read_sql_query(query, conn)
+        logger.info("Success: Connection within Lambda function")
+       
+    except:
+        conn = psycopg2.connect(
+            host=rds_host,
+            user=rds_username,
+            password=rds_user_pwd)
+        null_predictions = pd.read_sql_query(query, conn)
+        logger.info("Success: Re-connecting within Lambda function")
 
     # wrangling df --> resulting in no prediction column
     wrangled_data = wrangle(null_predictions)
@@ -169,4 +180,4 @@ def lambda_handler(event, context):
     # upload csv to bucket as wrangled_guests.csv
     s3.Bucket(s3_bucket).upload_file('/tmp/csv_file.csv', 'wrangled_guests.csv')
 
-    
+    conn.close()

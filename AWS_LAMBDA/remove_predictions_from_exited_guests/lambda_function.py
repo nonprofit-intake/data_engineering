@@ -22,6 +22,7 @@ try:
         host=rds_host,
         user=rds_username,
         password=rds_user_pwd)
+        
 except:
     # If unable to connect
     logger.error("ERROR: Could not connect to Postgres instance.")
@@ -30,26 +31,20 @@ except:
 # Log connection success
 logger.info("SUCCESS: Connection to RDS Postgres instance succeeded")
 
-
 def lambda_handler(event, context):
     '''Add predicted_exit_destination column to guests_temp if not exists, 
     then updates guests_temp to account for newly exited guests (if exited, no more need for prediction on row).'''
 
-    # Check if column exists
-    with conn.cursor() as cur:
+    add_column_query = "ALTER TABLE guests_temp ADD IF NOT EXISTS predicted_exit_destination VARCHAR;"
+    update_query = "UPDATE guests_temp SET predicted_exit_destination=CASE WHEN exit_date IS NOT NULL THEN 'exited' END;"
 
-        try:
-            # Add column if not exists
-            add_column_query = "ALTER TABLE guests_temp ADD IF NOT EXISTS predicted_exit_destination VARCHAR;"
-            cur.execute(add_column_query)
-            
-            # Update predictions
-            update_query = "UPDATE guests_temp SET predicted_exit_destination=CASE WHEN exit_date IS NOT NULL THEN 'exited' END;"
-            cur.execute(update_query)
-            
-        except:
-            logger.error("ERROR: Could not update predictions table.")
-            sys.exit()
+    queries = [add_column_query, update_query]
 
-        conn.commit()
-        conn.close()
+    for query in queries:
+       
+        with conn.cursor() as cur:
+
+            cur.execute(query)
+            conn.commit()
+
+    return 'status: 200'
