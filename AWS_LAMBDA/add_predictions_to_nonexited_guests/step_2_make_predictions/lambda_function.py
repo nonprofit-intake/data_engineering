@@ -40,8 +40,8 @@ def lambda_handler(event, context):
 
     # remove enroll_date & predicted exit destination in order to make predictions (put in wrangling function)
     # (will not model correctly otherwise)
-    cols_to_drop = ['enroll_date', 'personal_id', 'predicted_exit_destination']
-    prediction = model.predict(wrangled_data.drop(columns=cols_to_drop))
+    cols_to_drop = ['enroll_date', 'personal_id']
+    prediction = model.predict(wrangled_data.drop(columns=cols_to_drop), predict_disable_shape_check=True)
     
     # finding max of each class
     prediction = [np.argmax(line) for line in prediction]
