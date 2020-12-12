@@ -22,6 +22,7 @@ try:
         host=rds_host,
         user=rds_username,
         password=rds_user_pwd)
+        
 except:
     # If unable to connect
     logger.error("ERROR: Could not connect to Postgres instance.")
@@ -29,12 +30,6 @@ except:
 
 # Log connection success
 logger.info("SUCCESS: Connection to RDS Postgres instance succeeded")
-
-try:
-    if conn:
-        pass
-except:
-    logger.error("ERROR: No connection after making connection")
 
 def lambda_handler(event, context):
     '''Add predicted_exit_destination column to guests_temp if not exists, 
@@ -51,4 +46,5 @@ def lambda_handler(event, context):
 
             cur.execute(query)
             conn.commit()
+
     return 'status: 200'
