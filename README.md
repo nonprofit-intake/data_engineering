@@ -4,9 +4,9 @@
 Collection of serverless functions for guest intake system.
 
 - **add_predictions_to_non_exited_guests**: multiple functions; updates predicted_exit_destination column of guests table using results from LightGBM classification model
-  - Function 1: performs query to retrieve new guest data, wrangles it for modeling, and stores wrangled data in S3
-  - Function 2: retrieves wrangled data, runs it through a pickled model, and stores predicted results in S3
-  - Function 3: Retrieves prediction data and uploads results to guest database
+  - add_predictions_step_1_wrangle_new_data: performs query to retrieve new guest data, wrangles it for modeling, and stores wrangled data in S3
+  - add_predictions_step_2_make_predictions: retrieves wrangled data, runs it through a pickled model, and stores predicted results in S3
+  - add_predictions_step_3_update_database: Retrieves prediction data and uploads results to guest database
 - **remove_predictions_from_exited_guests**: single function; checks if predicted_exit_destination column exists and creates it if necessary and updates predicted_exit_destination to account for guests that have exited
 
 ## Tech Stack
@@ -17,7 +17,7 @@ Collection of serverless functions for guest intake system.
 **Services**: Docker, AWS API Gateway, AWS Lambda, AWS S3, AWS CloudWatch, ElephantSQL, PostgreSQL
 
 ## Architecture
-<img src="https://github.com/nonprofit-intake/family_promise_data_sharing/blob/dev/images/fampromarch.png" width="500" height="350">
+![Architecture Diagram](./diagrams/fampromarch.png)
 
 ## Getting Started
 ### Deployment to AWS
