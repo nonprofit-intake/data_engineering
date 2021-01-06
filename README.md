@@ -1,13 +1,21 @@
-# Family Promise of Spokane Update Prediction API
+# Family Promise of Spokane Data Engineering
 ## Project Overview
-What happens to local utilities customers that fell behind on payments prior to ceasing to be customers? How can we use our resources to prevent future homelessness?
 
-Our Solution: Design an API that uses unique identifiers to determine whether an ex-customer began receiving services from service providers assisting people experiencing homelessness.
+Collection of serverless functions for guest intake system.
+
+- add_predictions_to_non_exited_guests: updates predicted_exit_destination column of guests table using results from LightGBM classification model
+  - Function 1:
+  - Function 2:
+  - Function 3:
+- remove_predictions_from_exited_guests: checks if predicted_exit_destination column exists and creates it if necessary and updates predicted_exit_destination to account for guests that have exited
+
 
 ## Tech Stack
-Services: AWS, Docker, Jupyter Notebooks, Postman
-
 Languages: Python, SQL
+
+Dependencies: pandas, numpy, psycopg2, pickle, boto3, 
+
+Services: AWS, Docker, Jupyter Notebooks, Postman
 
 Backend: AWS API Gateway, AWS Lambda, ElephantSQL
 
