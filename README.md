@@ -76,8 +76,8 @@ WRANGLED_DATA_FILE = wrangled data file name
 RDS_HOST = database host
 RDS_USERNAME = database username
 RDS_USER_PWD = database password
-S3_BUCKET_ORIGIN =	S3 bucket name where prediction data is stored
-PREDICTIONS_FILE =	prediction data file name
+S3_BUCKET_ORIGIN = S3 bucket name where prediction data is stored
+PREDICTIONS_FILE = prediction data file name
 ```
 
 ## License
