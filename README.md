@@ -1,7 +1,7 @@
 # Family Promise of Spokane Data Engineering
 
 ## Project Overview
-This is a serverless backend that uses a deployed Light GBM model on AWS to return and update predictions for guests in our database. These predictions are used to help case workers better prioritize the most vulnerable guests in need, so that case workers can optimize the allocation of their resources and reduce the number of homeless families in Spokane.
+This is a serverless backend that uses a deployed LightGBM model on AWS to return and update predictions for guests in our database. These predictions are used to help case workers better prioritize the most vulnerable guests in need, so that case workers can optimize the allocation of their resources and reduce the number of homeless families in Spokane.
 
 Collection of serverless functions for guest intake system:
 
