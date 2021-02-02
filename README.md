@@ -18,7 +18,9 @@ Description of current directories:
 
 **Dependencies**: Pandas, NumPy, psycopg2, pickle, Boto3, LightGBM
 
-**Services**: Docker, AWS API Gateway, AWS Lambda, AWS S3, AWS CloudWatch, ElephantSQL, PostgreSQL
+**Services**: Docker, ElephantSQL, PostgreSQL
+
+**AWS**: API Gateway, Lambda, S3, CloudWatch
 
 ## Architecture
 ### remove_predictions_from_exited_guests
@@ -27,31 +29,26 @@ Description of current directories:
 ### add_predictions_to_non_exited_guests
 ![Add Predictions Diagram](diagrams/add_predictions_diagram.png)
 
-## Getting Started
-### Deployment to AWS
+## Getting Started :rocket:
+### I. Deployment to AWS
 #### Developer environment
+
 Build Amazon Linux image with Python 3.7 and pip
 
 ```docker build -t example_image_name .```
 
 #### Installing dependencies
 
-All dependencies are already installed, but if for some reason you needed to delete and reinstall:
-
 ```docker run -v $(pwd):/aws -ti example_image_name```
 
-then
-
 ```pip install bcrypt aws-psycopg2 pandas -t /aws```
-
-Do not install if these packages already exist in the aws folder.
 
 #### Packaging Lambda Function
 ```zip -r example_filename.zip *```
 
-At this point you'll want to head over the AWS GUI for function creation at AWS Lambda. 
+At this point you'll want to head over the AWS GUI for function creation using AWS Lambda. Zipped functions must not exceed 50 MB to upload directly. If it exceeds this limit it will need to be saved in an S3 bucket with a 250 MB limit.
 
-### AWS Environment Variables
+### II. AWS Environment Variables
 #### remove_predictions_from_exited_guests
 ```
 RDS_HOST = database host 
