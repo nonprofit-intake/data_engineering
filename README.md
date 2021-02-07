@@ -1,11 +1,13 @@
 # Family Promise of Spokane Data Engineering
 
 ## Project Overview
-This is a serverless backend that uses a deployed LightGBM model on AWS to return and update predictions for guests in our database. These predictions are used to help case workers better prioritize the most vulnerable guests in need, so that case workers can optimize the allocation of their resources and reduce the number of homeless families in Spokane.
+Serverless backend that uses a deployed LightGBM model hosted on AWS to return and update predictions for guests in our database. These predictions are used to help case workers better prioritize the most vulnerable guests, so that case workers can optimize the allocation of their resources and reduce the number of homeless families in Spokane.
 
-Collection of serverless functions for guest intake system:
+Description of serverless functions for guest intake system:
 
-- **remove_predictions_from_exited_guests**: single function; first checks if predicted_exit_destination column exists in guests table and creates it if necessary, then updates predicted_exit_destination column to account for guests that have exited
+- **remove_predictions_from_exited_guests**: single function
+   - Checks if predicted_exit_destination column exists in guests table and creates it if necessary
+   - Updates predicted_exit_destination column to account for guests that have exited
 - **add_predictions_to_non_exited_guests**: multiple functions; updates predicted_exit_destination column in guests database table using results from LightGBM classification model
   1. *add_predictions_step_1_wrangle_new_data*: performs query to retrieve new guest data, wrangles data for modeling, and stores wrangled data in S3 bucket
   2. *add_predictions_step_2_make_predictions*: retrieves wrangled data, runs data through a pickled model, and stores predicted results in S3 bucket
