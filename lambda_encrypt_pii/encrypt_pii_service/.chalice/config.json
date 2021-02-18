@@ -1,9 +1,0 @@
-{
-  "version": "2.0",
-  "app_name": "encrypt_pii_service",
-  "stages": {
-    "dev": {
-      "api_gateway_stage": "api"
-    }
-  }
-}
