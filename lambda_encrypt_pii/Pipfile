@@ -10,6 +10,7 @@ psycopg2-binary = "*"
 pandas = "*"
 cryptography = "*"
 chalice = "*"
+black = "*"
 
 [requires]
 python_version = "3.7"
